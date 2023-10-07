@@ -4,6 +4,78 @@ output: github_document
 date: "`r Sys.Date()`"
 ---
 
+```{r}
+library(tidyverse)
+```
+
+
+## Problem 1
+
+```{r}
+library(p8105.datasets)
+data("instacart")
+```
+
+# To that end, write a short description of the dataset, noting the size and structure of the data, describing some key variables, and giving illstrative examples of observations.
+
+* How many aisles are there, and which aisles are the most items ordered from?
+
+```{r}
+instacart |>
+  group_by(aisle_id) |>
+  summarize(n_obs = n()) |>
+  nrow()
+
+instacart |>
+  group_by(aisle_id) |>
+  summarize(n_obs = n()) |>
+  filter(min_rank(desc(n_obs)) == 1)
+```
+
+There are 134 aisles, the most items are ordered from the 83 aisle.
+
+
+* Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. Arrange aisles sensibly, and organize your plot so others can read it.
+
+```{r}
+instacart |>
+  group_by(aisle) |>
+  summarize(n_order = n()) |>
+  filter(n_order > 10000) |>
+  arrange(n_order) |>
+  mutate(aisle=factor(aisle, levels=aisle)) |>
+  ggplot(aes(x = n_order, y = aisle)) +
+    geom_col()
+```
+
+
+* Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
+
+```{r}
+instacart |>
+  filter(aisle == "baking ingredients" |aisle ==  "dog food care" | aisle == "packaged vegetables fruits") |>
+  group_by(aisle, product_name) |>
+  summarize(n_order = n()) |>
+  mutate(pop_ranking = min_rank(desc(n_order))) |>
+  filter(pop_ranking < 2) |>
+  select(-pop_ranking)
+```
+
+
+* Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
+```{r}
+instacart |>
+  filter(product_name == "Pink Lady Apples" | product_name == "Coffee Ice Cream") |>
+  select(product_name,  order_dow, order_hour_of_day) |>
+  group_by(product_name, order_dow) |>
+  summarize(
+    mean_hour = mean(order_hour_of_day)) |>
+  pivot_wider(
+    names_from = "product_name", 
+    values_from = "mean_hour")
+```
+
 
 
 
