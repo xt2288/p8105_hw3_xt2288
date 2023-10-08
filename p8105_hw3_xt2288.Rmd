@@ -45,6 +45,11 @@ instacart |>
   arrange(n_order) |>
   mutate(aisle=factor(aisle, levels=aisle)) |>
   ggplot(aes(x = n_order, y = aisle)) +
+  labs(
+    title = "Number of items ordered in each aisle",
+    xlab = "Number of items ordered",
+    ylab = "Aisle"
+  ) +
     geom_col()
 ```
 
