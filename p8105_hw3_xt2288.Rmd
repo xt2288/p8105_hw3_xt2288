@@ -131,12 +131,19 @@ brfss_clean |>
     ave_data_value = mean(data_value) 
   ) |>
   ggplot(aes(x = year, y = ave_data_value, color = locationabbr)) +
-  geom_line()
+    geom_line()
 ```
 
 
 * Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
+```{r}
+brfss_clean |>
+  filter(locationabbr == "NY" & (year == 2006 | year == 2010)) |>
+  ggplot(aes(x = response, y = data_value, color = year)) + 
+    geom_boxplot() +
+    facet_grid(. ~ year)
+```
 
 
 
