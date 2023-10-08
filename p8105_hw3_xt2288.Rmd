@@ -16,7 +16,7 @@ library(p8105.datasets)
 data("instacart")
 ```
 
-# To that end, write a short description of the dataset, noting the size and structure of the data, describing some key variables, and giving illstrative examples of observations.
+The data `instacart` has `r nrow(instacart)` observations and `r ncol(instacart)` variables. Some key variables are `order_id`: order identifier, `user_id`: customer identifier, `order_number`: the order sequence number for this user (1=first, n=nth), `order_dow`: the day of the week on which the order was placed, `order_hour_of_day`: the hour of the day on which the order was placed, `product_name`: name of the product, `aisle_id`: aisle identifier, `aisle`: the name of the aisle. Order_id 1 is made by user_id 112108. The 4th order is made on the 4th day of the week at 10. The product Bulgarian Yogurt is on aisle_id 120 which is yogurt.
 
 * How many aisles are there, and which aisles are the most items ordered from?
 
