@@ -181,7 +181,26 @@ nhanes_merge = left_join(nhanes_covar, nhanes_accel, by = "SEQN")
 ```
 
 
-Produce a reader-friendly table for the number of men and women in each education category, and create a visualization of the age distributions for men and women in each education category. Comment on these items.
+a table for the number of men and women in each education category.
+```{r}
+nhanes_covar |>
+  group_by(education, sex) |>
+  summarize(
+    n_obs = n()
+  )
+```
+There is no big different for the number of male and female in less than high school and more than high school levels. 1 more female in less than high school level, and 3 more female in more than high school level. In the high school equivalent level, there are 12 more male than female.
+
+a visualization of the age distributions for men and women in each education category
+```{r}
+nhanes_covar |>
+  group_by(education, sex) |>
+  ggplot(aes(x = education, y = age, color = sex)) + 
+  geom_boxplot()
+```
+In less than high school level, the age distribution is about the same for both sex. In high school equivalent level, female has a greater age than male. In more than high school level, male has a slightly greater age.
+
+
 
 Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate across minutes to create a total activity variable for each participant. Plot these total activities (y-axis) against age (x-axis); your plot should compare men to women and have separate panels for each education level. Include a trend line or a smooth to illustrate differences. Comment on your plot.
 
