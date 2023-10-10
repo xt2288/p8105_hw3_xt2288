@@ -193,7 +193,7 @@ nhanes_merge = left_join(nhanes_covar, nhanes_accel, by = "SEQN")
 ```
 
 
-a table for the number of men and women in each education category.
+* Produce a reader-friendly table for the number of men and women in each education category, and create a visualization of the age distributions for men and women in each education category. Comment on these items.
 ```{r}
 nhanes_covar |>
   group_by(education, sex) |>
@@ -205,6 +205,7 @@ nhanes_covar |>
     values_from = n_obs
   )
 ```
+
 There is no big different for the number of male and female in less than high school and more than high school levels. 1 more female in less than high school level, and 3 more female in more than high school level. In the high school equivalent level, there are 12 more male than female.
 
 a visualization of the age distributions for men and women in each education category
@@ -218,10 +219,11 @@ nhanes_merge |>
     y = "Age"
   )
 ```
+
 In less than high school level, the age distribution is about the same for both sex. In high school equivalent level, female has a greater age than male. In more than high school level, male has a slightly greater age.
 
 
-Plot total activities (y-axis) against age (x-axis); the plot compare men to women and have separate panels for each education level.
+* Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate across minutes to create a total activity variable for each participant. Plot these total activities (y-axis) against age (x-axis); your plot should compare men to women and have separate panels for each education level. Include a trend line or a smooth to illustrate differences. Comment on your plot.
 ```{r}
 nhanes_merge |>
   group_by(SEQN) |>
@@ -237,10 +239,11 @@ nhanes_merge |>
     y = "Total Activiy"
   )
 ```
+
 The total activity decreases as the age increases for both men and women in all education levels. In less than high school education level, women has a higher total activity before 40, and men has a higher activity after 40. In the high school equivalent level, women has a higher total activity. In more than high school level, female also has ahigher total activity. 
 
 
-a three-panel plot that shows the 24-hour activity time courses for each education level and sex
+* Accelerometer data allows the inspection activity over the course of the day. Make a three-panel plot that shows the 24-hour activity time courses for each education level and use color to indicate sex. Describe in words any patterns or conclusions you can make based on this graph; including smooth trends may help identify differences.
 ```{r}
 nhanes_merge |>
   mutate(minute = str_remove_all(minute, "min"),
@@ -256,6 +259,7 @@ nhanes_merge |>
     y = "MIMS Value"
   )
 ```
+
 Based on the plots, women and men have about the same trend of 24-hour activity in all three education levels.
 
 
