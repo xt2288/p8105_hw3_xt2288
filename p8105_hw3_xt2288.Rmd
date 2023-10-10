@@ -228,7 +228,7 @@ nhanes_merge |>
 The total activity decreases as the age increases for both men and women in all education levels. In less than high school education level, women has a higher total activity before 40, and men has a higher activity after 40. In the high school equivalent level, women has a higher total activity. In more than high school level, female also has ahigher total activity. 
 
 
-a three-panel plot that shows the 24-hour activity time courses for each education level and color to indicate sex. Describe in words any patterns or conclusions you can make based on this graph
+a three-panel plot that shows the 24-hour activity time courses for each education level and sex
 ```{r}
 nhanes_merge |>
   mutate(minute = str_remove_all(minute, "min"),
@@ -244,7 +244,7 @@ nhanes_merge |>
     y = "MIMS Value"
   )
 ```
-
+Based on the plots, women and men have about the same trend of 24-hour activity in all three education levels.
 
 
 
