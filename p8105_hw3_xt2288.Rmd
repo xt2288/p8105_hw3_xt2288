@@ -187,6 +187,10 @@ nhanes_covar |>
   group_by(education, sex) |>
   summarize(
     n_obs = n()
+  ) |>
+  pivot_wider(
+    names_from = sex,
+    values_from = n_obs
   )
 ```
 There is no big different for the number of male and female in less than high school and more than high school levels. 1 more female in less than high school level, and 3 more female in more than high school level. In the high school equivalent level, there are 12 more male than female.
@@ -194,9 +198,13 @@ There is no big different for the number of male and female in less than high sc
 a visualization of the age distributions for men and women in each education category
 ```{r}
 nhanes_merge |>
-  group_by(SEQN, education, sex) |>
   ggplot(aes(x = education, y = age, color = sex)) + 
-  geom_boxplot()
+  geom_boxplot() +
+  labs(
+    title = "Age vs. Education by Sex",
+    x = "Education",
+    y = "Age"
+  )
 ```
 In less than high school level, the age distribution is about the same for both sex. In high school equivalent level, female has a greater age than male. In more than high school level, male has a slightly greater age.
 
@@ -206,9 +214,10 @@ Plot total activities (y-axis) against age (x-axis); the plot compare men to wom
 nhanes_merge |>
   group_by(SEQN) |>
   mutate(total_act = sum(MIMS_Value)) |>
+  filter(minute == "min1") |>
   ggplot(aes(x = age, y = total_act, color = sex)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(se = FALSE) +
   facet_grid(. ~ education) +
   labs(
     title = "Total Activity vs. Age",
@@ -216,17 +225,24 @@ nhanes_merge |>
     y = "Total Activiy"
   )
 ```
-The total activity decreases as the age increases for both men and women. In less than high school education level, women has a higher total activity around age 32, and men has a higher activity around age 58. In the high school equivalent level, women has a higher total acitivity before age 50. After that age, men and women have the same trend. In more than high school level, men and women have about the same trend, except for age about 65 where female has a much higher total activity. 
+The total activity decreases as the age increases for both men and women in all education levels. In less than high school education level, women has a higher total activity before 40, and men has a higher activity after 40. In the high school equivalent level, women has a higher total activity. In more than high school level, female also has ahigher total activity. 
 
 
-Accelerometer data allows the inspection activity over the course of the day. Make a three-panel plot that shows the 24-hour activity time courses for each education level and use color to indicate sex. Describe in words any patterns or conclusions you can make based on this graph
+a three-panel plot that shows the 24-hour activity time courses for each education level and color to indicate sex. Describe in words any patterns or conclusions you can make based on this graph
 ```{r}
 nhanes_merge |>
+  mutate(minute = str_remove_all(minute, "min"),
+         minute = as.numeric(minute)) |>
+  arrange(minute) |>
   ggplot(aes(x = minute, y = MIMS_Value, color = sex)) +
   geom_point(alpha = 0.5) +
   geom_smooth(se = FALSE) +
-  facet_wrap( ~ education, nrow = 2) +
-  theme_minimal()
+  facet_grid( ~ education) +
+  labs(
+    title = "MIMS_Value vs. Minute by Sex",
+    x = "Minute",
+    y = "MIMS Value"
+  )
 ```
 
 
