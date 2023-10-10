@@ -138,7 +138,7 @@ brfss_clean |>
     y = "Average Data Value"
   )
 ```
-
+There is no pattern in the plot. The plot shows the average data value change from 2002 to 2010 for every state.
 
 * Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
@@ -147,8 +147,14 @@ brfss_clean |>
   filter(state == "NY" & (year == 2006 | year == 2010)) |>
   ggplot(aes(x = response, y = data_value, color = year)) + 
     geom_boxplot() +
-    facet_grid(. ~ year)
+    facet_grid(. ~ year) +
+  labs(
+    title = "Data Value vs. Response by Year",
+    x = "Response",
+    y = "Data Value"
+  )
 ```
+2006 and 2010 have about the same distribution, the rank of mean of data value is very good, good, excellent, fair, and poor. 2010 has a higher mean value in good, very good, and excellent. 
 
 
 ## Problem 3
