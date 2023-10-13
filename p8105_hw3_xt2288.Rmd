@@ -169,6 +169,7 @@ nhanes_covar =
       sex,
       1 ~ "male",
       2 ~ "female"),
+    sex = as.factor(sex),
     education = case_match(
       education,
       1 ~ "Less than high school",
